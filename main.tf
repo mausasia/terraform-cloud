@@ -13,6 +13,14 @@ resource "azurerm_subnet" "ttsubnet" {
   depends_on = [ azurerm_virtual_network.ttnetwork ]
 }
 
+resource "azurerm_subnet" "ttsubnet2" {
+  name                 = "tt${terraform.workspace}-subnet2"
+  resource_group_name  = local.resource_group_name
+  virtual_network_name = azurerm_virtual_network.ttnetwork.name
+  address_prefixes     = [cidrsubnet(local.virtual_network.address_space, 1, 1)]
+  depends_on = [ azurerm_virtual_network.ttnetwork ]
+}
+
 resource "azurerm_network_security_group" "ttnsg" {
   name                = "tt${terraform.workspace}-ttnsg"
   location            = local.location
